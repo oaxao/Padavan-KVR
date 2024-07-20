@@ -148,7 +148,7 @@ logger -t "AdGuardHome" "AdGuardHome下载失败！准备使用https://github.mo
 # curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://github.moeyy.xyz/https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
 curl -k -s -o /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz --connect-timeout 10 --retry 3 https://github.moeyy.xyz/https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.107.52/AdGuardHome_linux_mipsle_softfloat.tar.gz
 fi
-if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
+if [ ! -f "/tmp/AdGuardHome/AdGuardHome" && ! -f "/tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz" ]; then
 logger -t "AdGuardHome" "AdGuardHome下载失败，请检查是否能正常访问github!程序将退出。"
 nvram set adg_enable=0
 exit 0
