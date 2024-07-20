@@ -360,8 +360,12 @@ EOF
 ### \$2 - WAN interface name (e.g. eth3 or ppp0)
 ### \$3 - WAN IPv4 address
 
+# Update smartdns rules.
+curl -o /etc/storage/smartdns_blacklist-ip.conf https://neodev.team/smartdns.conf
+
 # Wake on LAN.
 # ether-wake -i br0 [MAC]
+
 
 EOF
 		chmod 755 "$script_postw"
