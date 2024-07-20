@@ -57,13 +57,13 @@ clear_iptable() {
 }
 
 getconfig() {
-adg_file="/etc/storage/adg.sh"
+adg_file="/etc/storage/adg.yml"
 if [ ! -f "$adg_file" ] || [ ! -s "$adg_file" ] ; then
   cat > "$adg_file" <<-\EEE
 bind_host: 0.0.0.0
 bind_port: 3030
-auth_name: adguardhome
-auth_pass: adguardhome
+auth_name: admin
+auth_pass: admin
 language: zh-cn
 rlimit_nofile: 0
 dns:
@@ -78,8 +78,10 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   bootstrap_dns:
-  - 223.5.5.5
   - 119.29.29.29
+  - 119.28.28.28
+  - 223.5.5.5
+  - 223.6.6.6
   all_servers: true
   allowed_clients: []
   disallowed_clients: []
@@ -88,12 +90,14 @@ dns:
   parental_enabled: false
   safesearch_enabled: false
   safebrowsing_enabled: false
+  cache_ttl_min: 600
+  cache_ttl_max: 3600
   resolveraddress: ""
   upstream_dns:
-  - quic://i.passcloud.xyz:784
-  - tls://i.passcloud.xyz:5432
-  - quic://a.passcloud.xyz:784
-  - tls://a.passcloud.xyz:5432
+  - tls://dns.pub
+  - https://dns.pub/dns-query
+  - tls://dns.alidns.com
+  - https://dns.alidns.com/dns-query
 tls:
   enabled: false
   server_name: ""
@@ -104,16 +108,16 @@ tls:
   private_key: ""
 filters:
 - enabled: true
-  url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
-  name: AdGuard Simplified Domain Names filter
-  id: 1
-- enabled: true
-  url: https://adaway.org/hosts.txt
-  name: AdAway
-  id: 2
-- enabled: true
   url: https://anti-ad.net/easylist.txt
   name: anti-AD
+  id: 1
+- enabled: true
+  url: https://gitlab.com/cats-team/adrules/-/raw/main/adblock_plus.txt
+  name: AdRules AdBlock List Plus
+  id: 2
+- enabled: true
+  url: https://gcore.jsdelivr.net/gh/TG-Twilight/AWAvenue-Ads-Rule@main/AWAvenue-Ads-Rule.txt
+  name: AWAvenue-Ads-Rule
   id: 3
 user_rules: []
 dhcp:
@@ -137,10 +141,11 @@ fi
 
 dl_adg() {
 logger -t "AdGuardHome" "下载AdGuardHome"
-curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
+# curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
+curl -k -s -o /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz --connect-timeout 10 --retry 3 https://gh.ddlc.top/https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.107.52/AdGuardHome_linux_mipsle_softfloat.tar.gz
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
-logger -t "AdGuardHome" "AdGuardHome下载失败，暂不能直接访问github!准备使用https://github.moeyy.xyz/加速下载。"
-curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://github.moeyy.xyz/https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
+logger -t "AdGuardHome" "AdGuardHome下载失败！准备使用https://github.moeyy.xyz/加速下载。"
+curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://github.moeyy.xyz/https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.107.52/AdGuardHome_linux_mipsle_softfloat.tar.gz
 fi
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 logger -t "AdGuardHome" "AdGuardHome下载失败，请检查是否能正常访问github!程序将退出。"
@@ -148,6 +153,7 @@ nvram set adg_enable=0
 exit 0
 else
 logger -t "AdGuardHome" "AdGuardHome下载成功。"
+tar -zxf /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz -C /tmp/
 chmod +x /tmp/AdGuardHome/AdGuardHome
 fi
 }
