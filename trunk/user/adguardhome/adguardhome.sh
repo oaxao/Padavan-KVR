@@ -172,7 +172,7 @@ start_adg() {
 }
 
 stop_adg() {
-rm -rf /tmp/AdGuardHome
+# rm -rf /tmp/AdGuardHome
 killall -9 AdGuardHome
 del_dns
 clear_iptable
