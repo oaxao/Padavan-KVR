@@ -156,6 +156,7 @@ else
 logger -t "AdGuardHome" "AdGuardHome下载成功。"
 if [ "/tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz" ]; then
 tar -zxf /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz -C /tmp/
+rm -f /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz
 fi
 chmod +x /tmp/AdGuardHome/AdGuardHome
 fi
