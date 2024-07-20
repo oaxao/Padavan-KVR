@@ -154,7 +154,9 @@ nvram set adg_enable=0
 exit 0
 else
 logger -t "AdGuardHome" "AdGuardHome下载成功。"
+if [ "/tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz" ]; then
 tar -zxf /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz -C /tmp/
+fi
 chmod +x /tmp/AdGuardHome/AdGuardHome
 fi
 }
