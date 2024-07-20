@@ -281,6 +281,9 @@ sync && echo 3 > /proc/sys/vm/drop_caches
 #wing 192.168.1.9:1080
 #ipset add gfwlist 8.8.4.4
 
+# Wake on LAN.
+# ether-wake -i br0 [MAC]
+
 # CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
 set_rps_rfs() {
     echo f >/proc/irq/11/smp_affinity
@@ -361,11 +364,7 @@ EOF
 ### \$3 - WAN IPv4 address
 
 # Update smartdns rules.
-curl -o /etc/storage/smartdns_blacklist-ip.conf https://neodev.team/smartdns.conf
-
-# Wake on LAN.
-# ether-wake -i br0 [MAC]
-
+# curl -o /etc/storage/smartdns_blacklist-ip.conf https://neodev.team/smartdns.conf
 
 EOF
 		chmod 755 "$script_postw"
