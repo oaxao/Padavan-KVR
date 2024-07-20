@@ -63,7 +63,7 @@ if [ ! -f "$adg_file" ] || [ ! -s "$adg_file" ] ; then
 bind_host: 0.0.0.0
 bind_port: 3030
 auth_name: admin
-auth_pass: admin
+auth_pass: $2a$05$hrUxHUY00YZxHpWatbn46uqFU3POjjkws3ZbwTxHVSHoYIoTCmOW.
 language: zh-cn
 rlimit_nofile: 0
 dns:
@@ -142,11 +142,11 @@ fi
 dl_adg() {
 logger -t "AdGuardHome" "下载AdGuardHome"
 # curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://gh.con.sh/https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
-curl -k -s -o /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz --connect-timeout 10 --retry 3 https://gh.con.sh/https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.107.52/AdGuardHome_linux_mipsle_softfloat.tar.gz
+curl -k -s -o /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz --connect-timeout 10 --retry 3 https://gh.con.sh/https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.106.3/AdGuardHome_linux_mipsle_softfloat.tar.gz
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 logger -t "AdGuardHome" "AdGuardHome下载失败！准备使用https://github.moeyy.xyz/加速下载。"
 # curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://github.moeyy.xyz/https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
-curl -k -s -o /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz --connect-timeout 10 --retry 3 https://github.moeyy.xyz/https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.107.52/AdGuardHome_linux_mipsle_softfloat.tar.gz
+curl -k -s -o /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz --connect-timeout 10 --retry 3 https://github.moeyy.xyz/https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.106.3/AdGuardHome_linux_mipsle_softfloat.tar.gz
 fi
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" && ! -f "/tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz" ]; then
 logger -t "AdGuardHome" "AdGuardHome下载失败，请检查是否能正常访问github!程序将退出。"
