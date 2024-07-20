@@ -281,8 +281,6 @@ sync && echo 3 > /proc/sys/vm/drop_caches
 #wing 192.168.1.9:1080
 #ipset add gfwlist 8.8.4.4
 
-
-
 # CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
 set_rps_rfs() {
     echo f >/proc/irq/11/smp_affinity
