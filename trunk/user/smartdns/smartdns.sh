@@ -59,6 +59,21 @@ get_tz()
 	fi	
 	SET_TZ=$tz
 }
+
+updatechnroute(){
+logger -st "chnroute" "Starting update..."
+rm -f /tmp/chinadns_chnroute.txt
+
+curl -k -s --connect-timeout 20 --retry 3 http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest | \
+	awk -F\| '/CN\|ipv4/ { printf("%s/%d\n", $4, 32-log($5)/log(2)) }' > /tmp/chinadns_chnroute.txt
+
+[ ! -d /etc/storage/chinadns/ ] && mkdir /etc/storage/chinadns/
+mv -f /tmp/chinadns_chnroute.txt /etc/storage/chinadns/chnroute.txt
+
+mtd_storage.sh save >/dev/null 2>&1
+logger -st "chnroute" "Update done"
+}
+
 gensmartconf(){
 rm -f $SMARTDNS_CONF
 touch $SMARTDNS_CONF
@@ -159,12 +174,14 @@ fi
 done
 if [ $ss_white = "1" ]; then
 rm -f /tmp/whitelist.conf
+updatechnroute
 logger -t "SmartDNS" "开始处理白名单IP"
 awk '{printf("whitelist-ip %s\n", $1, $1 )}' /etc/storage/chinadns/chnroute.txt >> /tmp/whitelist.conf
 echo "conf-file /tmp/whitelist.conf" >> $SMARTDNS_CONF
 fi
 if [ $ss_black = "1" ]; then
 rm -f /tmp/blacklist.conf
+updatechnroute
 logger -t "SmartDNS" "开始处理黑名单IP"
 awk '{printf("blacklist-ip %s\n", $1, $1 )}' /etc/storage/chinadns/chnroute.txt >> /tmp/blacklist.conf
 echo "conf-file /tmp/blacklist.conf" >> $SMARTDNS_CONF
