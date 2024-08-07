@@ -169,7 +169,7 @@ logger -t "SmartDNS" "开始处理黑名单IP"
 awk '{printf("blacklist-ip %s\n", $1, $1 )}' /etc/storage/chinadns/chnroute.txt >> /tmp/blacklist.conf
 echo "conf-file /tmp/blacklist.conf" >> $SMARTDNS_CONF
 fi
-if [ "/tmp/ad-list.conf" ]; then
+if [ -f "/tmp/ad-list.conf" ]; then
 logger -t "SmartDNS" "开始处理广告列表"
 echo "conf-file /tmp/ad-list.conf" >> $SMARTDNS_CONF
 fi
