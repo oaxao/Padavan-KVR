@@ -364,7 +364,7 @@ EOF
 ### \$3 - WAN IPv4 address
 
 # Update smartdns rules.
-# wget -q -O /tmp/ad-list.conf https://neodev.team/smartdns.conf
+# wget -q -T 10 -O /tmp/ad-list.conf https://neodev.team/smartdns.conf
 
 EOF
 		chmod 755 "$script_postw"
