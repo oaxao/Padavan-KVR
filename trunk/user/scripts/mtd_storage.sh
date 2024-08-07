@@ -363,7 +363,7 @@ EOF
 ### \$2 - WAN interface name (e.g. eth3 or ppp0)
 ### \$3 - WAN IPv4 address
 
-# Update smartdns rules.
+# Update smartdns ad-list.
 # wget -q -T 10 -O /tmp/ad-list.conf https://neodev.team/smartdns.conf
 
 EOF
