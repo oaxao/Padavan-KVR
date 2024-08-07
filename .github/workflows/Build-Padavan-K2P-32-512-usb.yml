@@ -98,7 +98,6 @@ jobs:
         #echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CLIENT=y" >> .config
         #echo "CONFIG_FIRMWARE_INCLUDE_SOFTETHERVPN_CMD=y" >> .config
         
-        echo "CONFIG_FIRMWARE_CPU_SLEEP=y" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y" >> .config #smartdns
         echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=y" >> .config #adg DNS去AD
         
