@@ -74,6 +74,7 @@ jobs:
         ######################################################################
         
         echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y" >> .config #smartdns
+        echo "CONFIG_FIRMWARE_INCLUDE_CHNROUTE=y" >> .config #chnroute
         # echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=y" >> .config #adg DNS去AD
         
         ###############################################################################
