@@ -207,6 +207,7 @@ func_fill()
 	script_vpnsc="$dir_storage/vpns_client_script.sh"
 	script_vpncs="$dir_storage/vpnc_server_script.sh"
 	script_ezbtn="$dir_storage/ez_buttons_script.sh"
+	script_rros="$dir_storage/rps-rfs-ops.sh"
 
 	user_hosts="$dir_dnsmasq/hosts"
 	user_dnsmasq_conf="$dir_dnsmasq/dnsmasq.conf"
@@ -283,42 +284,11 @@ sync && echo 3 > /proc/sys/vm/drop_caches
 
 # Wake on LAN.
 # ether-wake -i br0 [MAC]
+# BACKUP NAS
+ether-wake -i br0 00:6A:3C:68:62:49
 
 # CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
-set_rps_rfs() {
-    echo f >/proc/irq/11/smp_affinity
-    echo f >/proc/irq/12/smp_affinity
-
-    for device in $(ls /sys/class/net); do
-        echo f >/sys/class/net/$device/queues/rx-0/rps_cpus
-        echo 32768 >/sys/class/net/$device/queues/rx-0/rps_flow_cnt
-    done
-
-    echo 32768 >/proc/sys/net/core/rps_sock_flow_entries
-}
-
-get_rps_rfs() {
-    cat /proc/irq/11/smp_affinity
-    cat /proc/irq/12/smp_affinity
-
-    for device in $(ls /sys/class/net); do
-        printf "%-10s %-5s %-10s\n" "$device" "$(cat /sys/class/net/$device/queues/rx-0/rps_cpus)" "$(cat /sys/class/net/$device/queues/rx-0/rps_flow_cnt)"
-    done
-
-    cat /proc/sys/net/core/rps_sock_flow_entries
-}
-
-case $1 in
-get)
-    get_rps_rfs
-    ;;
-set)
-    set_rps_rfs
-    ;;
-*)
-    get_rps_rfs
-    ;;
-esac
+/etc/storage/bin/rps-rfs-ops.sh set
 
 EOF
 		chmod 755 "$script_started"
@@ -364,7 +334,10 @@ EOF
 ### \$3 - WAN IPv4 address
 
 # Update smartdns ad-list.
-# wget -q -T 10 -O /tmp/ad-list.conf https://neodev.team/smartdns.conf
+# wget -q -T 10 -O /etc/storage/smartdns_blacklist-ip.conf https://neodev.team/smartdns.conf
+
+# CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
+/etc/storage/bin/rps-rfs-ops.sh set
 
 EOF
 		chmod 755 "$script_postw"
@@ -381,42 +354,6 @@ EOF
 ### \$2 - elapsed time (s) from previous state
 
 logger -t "di" "Internet state: \$1, elapsed time: \$2s."
-
-# CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
-set_rps_rfs() {
-    echo f >/proc/irq/11/smp_affinity
-    echo f >/proc/irq/12/smp_affinity
-
-    for device in $(ls /sys/class/net); do
-        echo f >/sys/class/net/$device/queues/rx-0/rps_cpus
-        echo 32768 >/sys/class/net/$device/queues/rx-0/rps_flow_cnt
-    done
-
-    echo 32768 >/proc/sys/net/core/rps_sock_flow_entries
-}
-
-get_rps_rfs() {
-    cat /proc/irq/11/smp_affinity
-    cat /proc/irq/12/smp_affinity
-
-    for device in $(ls /sys/class/net); do
-        printf "%-10s %-5s %-10s\n" "$device" "$(cat /sys/class/net/$device/queues/rx-0/rps_cpus)" "$(cat /sys/class/net/$device/queues/rx-0/rps_flow_cnt)"
-    done
-
-    cat /proc/sys/net/core/rps_sock_flow_entries
-}
-
-case $1 in
-get)
-    get_rps_rfs
-    ;;
-set)
-    set_rps_rfs
-    ;;
-*)
-    get_rps_rfs
-    ;;
-esac
 
 EOF
 		chmod 755 "$script_inets"
@@ -576,6 +513,50 @@ dhcp-option=252,"\n"
 #dhcp-to-host
 
 EOF
+	# create rps-rfs-ops script
+	if [ ! -f "$script_rros" ] ; then
+		cat > "$script_rros" <<EOF
+#!/bin/sh
+
+set_rps_rfs() {
+    echo f >/proc/irq/11/smp_affinity
+    echo f >/proc/irq/12/smp_affinity
+
+    for device in $(ls /sys/class/net); do
+        echo f >/sys/class/net/$device/queues/rx-0/rps_cpus
+        echo 32768 >/sys/class/net/$device/queues/rx-0/rps_flow_cnt
+    done
+
+    echo 32768 >/proc/sys/net/core/rps_sock_flow_entries
+}
+
+get_rps_rfs() {
+    cat /proc/irq/11/smp_affinity
+    cat /proc/irq/12/smp_affinity
+
+    for device in $(ls /sys/class/net); do
+        printf "%-10s %-5s %-10s\n" "$device" "$(cat /sys/class/net/$device/queues/rx-0/rps_cpus)" "$(cat /sys/class/net/$device/queues/rx-0/rps_flow_cnt)"
+    done
+
+    cat /proc/sys/net/core/rps_sock_flow_entries
+}
+
+case $1 in
+get)
+    get_rps_rfs
+    ;;
+set)
+    set_rps_rfs
+    ;;
+*)
+    get_rps_rfs
+    ;;
+esac
+
+EOF
+		chmod 755 "$script_rros"
+	fi
+ 
 	if [ -f /usr/bin/vlmcsd ]; then
 		cat >> "$user_dnsmasq_conf" <<EOF
 ### vlmcsd related
