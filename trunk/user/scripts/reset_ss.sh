@@ -44,7 +44,7 @@ echo 1 > /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal
 echo 1 > /proc/sys/net/netfilter/nf_conntrack_tcp_loose
 echo 10 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_syn_sent
 echo 10 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_syn_recv
-echo 86400 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_established
+echo 1800 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_established
 echo 15 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_fin_wait
 echo 15 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_close_wait
 echo 15 > /proc/sys/net/netfilter/nf_conntrack_tcp_timeout_last_ack
