@@ -1658,6 +1658,7 @@
 																	nvram_match_x("","ss_run_mode", "gfw" ,"selected");
 																	%>>
 																	gfw列表模式</option>
+																	<!--
 																<option value="router" <%
 																	nvram_match_x("","ss_run_mode", "router"
 																	,"selected"); %>>
@@ -1670,6 +1671,7 @@
 																	nvram_match_x("","ss_run_mode", "oversea"
 																	,"selected"); %>>
 																	海外用户回国模式</option>
+																	-->
 															</select>
 														</td>
 													</tr>
@@ -1701,10 +1703,11 @@
 															<select name="pdnsd_enable" id="pdnsd_enable" class="input"
 																style="width: 200px;" onchange="switch_dns()">
 																<option value="0">使用dns2tcp查询</option>
-																<option value="1">使用其它服务器查询</option>
+															<!--<option value="1">使用其它服务器查询</option>-->
 															</select>
 														</td>
 													</tr>
+
 													<tr>
 														<th>加载chinadns-ng(仅绕过模式生效)</th>
 														<td>
@@ -1728,7 +1731,7 @@
 																	<#checkbox_No#>
 															</div>
 														</td>
-													</tr>
+													</tr> 
 													<tr id="row_china_dns" style="display:none;">
 														<th width="50%">国内DNS(仅chinadns-ng生效)</th>
 														<td>
@@ -1746,15 +1749,16 @@
 																<option value="1.2.4.8#53">cnnic DNS (1.2.4.8)</option>
 															</select>
 														</td>
-													</tr>
+													</tr> 
+												
 													<tr id="row_tunnel_forward" style="display:none;">
 														<th width="50%">国外DNS</th>
 														<td>
 															<select name="tunnel_forward" class="input"
 																style="width: 200px;">
-																<option value="8.8.4.4#53">Google Public DNS (8.8.4.4)
-																</option>
 																<option value="8.8.8.8#53">Google Public DNS (8.8.8.8)
+																</option>																
+																<option value="8.8.4.4#53">Google Public DNS (8.8.4.4)
 																</option>
 																<option value="208.67.222.222#53">OpenDNS
 																	(208.67.222.222)</option>
@@ -2708,15 +2712,12 @@
 												<table width="100%" cellpadding="4" cellspacing="0" class="table">
 													<tr>
 														<th colspan="2" style="background-color: #E3E3E3;">
-															chinadns-ng说明:</th>
+															版本说明:</th>
 													</tr>
 													<tr>
 														<th width="100%">
-															绕过大陆模式启用chinadns会加载CDN域名规则来分流常用网站跑国内DNS,加载gfwlist列表来分流到国外DNS
+															只支持gfwlist模式，其他模式有问题，屏蔽掉了！
 														</th>
-													</tr>
-													<tr>
-														<th width="100%">此模式会占用一部分内存资源,内存少的机器请谨慎开启。</th>
 													</tr>
 												</table>
 											</div>

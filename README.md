@@ -10,6 +10,8 @@
 
 frps界面开关需要的自己去把那部分注释删掉就可以了！ https://github.com/fightroad/Padavan-KVR/commit/01dedd47494696e7a2c4fde2204e69a17f3f8942
 
+测试ssp 绕过模式、全局、回国模式有问题，界面只保留了gfw模式！
+
 # 版本特点：
 
 1、mac系统打开页面响应慢的问题，适配手机页面，精简部分页面显示内容。
@@ -30,7 +32,7 @@ frps界面开关需要的自己去把那部分注释删掉就可以了！ https:
 zerotier 使用技巧：
 
 1、ap模式下如果想要其他zerotier端可以访问ap网段
-#在padavan开机脚本里开启ap模式下的ip转发功能，虚拟网段改成你自己实际的。
+在padavan开机脚本里开启ap模式下的ip转发功能，虚拟网段改成你自己实际的。
 ```
 sysctl -w net.ipv4.ip_forward=1
 iptables -t nat -A POSTROUTING -s 10.11.12.0/24 -j MASQUERADE
