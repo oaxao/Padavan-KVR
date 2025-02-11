@@ -312,6 +312,7 @@ grep -v '^#' $ADDRESS_CONF | grep -v "^$" >> $SMARTDNS_CONF
 grep -v '^#' $BLACKLIST_IP_CONF | grep -v "^$" >> $SMARTDNS_CONF
 grep -v '^#' $WHITELIST_IP_CONF | grep -v "^$" >> $SMARTDNS_CONF
 grep -v '^#' $CUSTOM_CONF | grep -v "^$" >> $SMARTDNS_CONF
+grep -v '^#' $SMARTDNS_CONF | grep -v "^$" >> $SMARTDNS_CONF
 #grep -v ^! /tmp/whitelist.txt >> $SMARTDNS_CONF
 #rm -f /tmp/whitelist.txt
 #grep -v ^! /tmp/blacklist.txt >> $SMARTDNS_CONF
