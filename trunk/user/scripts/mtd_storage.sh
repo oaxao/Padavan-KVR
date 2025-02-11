@@ -288,7 +288,7 @@ sync && echo 3 > /proc/sys/vm/drop_caches
 ether-wake -i br0 00:6A:3C:68:62:49
 
 # CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
-/etc/storage/bin/rps-rfs-ops.sh set
+/etc/storage/rps-rfs-ops.sh set
 
 EOF
 		chmod 755 "$script_started"
@@ -338,7 +338,7 @@ EOF
 # smartdns stop && smartdns start >/dev/null 2>&1
 
 # CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
-/etc/storage/bin/rps-rfs-ops.sh set
+/etc/storage/rps-rfs-ops.sh set
 
 EOF
 		chmod 755 "$script_postw"
