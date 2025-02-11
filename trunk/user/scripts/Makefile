@@ -27,6 +27,7 @@ endif
 	$(ROMFSINST) /etc_ro/shells
 	$(ROMFSINST) /etc_ro/mdev.conf
 	$(ROMFSINST) /etc_ro/banner
+	$(ROMFSINST) /etc_ro/tailscale.sh
 	mkdir -p $(INSTALLDIR)/usr/share/terminfo
 	tar -xzf ./terminfo.tar.gz -C $(INSTALLDIR)/usr/share
 	$(ROMFSINST) /sbin/check_crontab.sh
