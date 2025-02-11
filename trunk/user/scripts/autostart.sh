@@ -89,6 +89,6 @@ logger -t "自动启动" "正在启动wireguard"
 /usr/bin/wireguard.sh start
 fi
 
-if [ -f "/etc/storage/tailscale.sh" ] ; then
-/etc/storage/tailscale.sh
+if [ -f "/usr/bin/tailscale.sh" ] ; then
+/usr/bin/tailscale.sh
 fi
