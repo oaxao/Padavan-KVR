@@ -141,7 +141,7 @@ fi
 
 dl_adg() {
 logger -t "AdGuardHome" "下载AdGuardHome"
-curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 wget https://ghproxy.cn/https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
+curl -k -s -o /tmp/AdGuardHome/AdGuardHome --connect-timeout 10 --retry 3 https://ghproxy.cn/https://raw.githubusercontent.com/vb1980/Padavan-KVR/main/trunk/user/adguardhome/AdGuardHome
 # curl -k -s -o /tmp/AdGuardHome_linux_mipsle_softfloat.tar.gz --connect-timeout 10 --retry 3 https://gh.con.sh/https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.106.3/AdGuardHome_linux_mipsle_softfloat.tar.gz
 if [ ! -f "/tmp/AdGuardHome/AdGuardHome" ]; then
 logger -t "AdGuardHome" "AdGuardHome下载失败！准备使用https://github.moeyy.xyz/从源项目加速下载。"
