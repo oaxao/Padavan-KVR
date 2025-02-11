@@ -334,7 +334,7 @@ EOF
 ### \$3 - WAN IPv4 address
 
 # Update smartdns ad-list.
-# wget -q -T 10 -O /tmp/ad-blacklist.conf https://neodev.team/smartdns.conf
+# wget -q -T 10 -O /tmp/blacklist.conf https://neodev.team/smartdns.conf
 # smartdns stop && smartdns start >/dev/null 2>&1
 
 # CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
