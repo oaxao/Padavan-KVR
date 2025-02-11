@@ -335,6 +335,7 @@ EOF
 
 # Update smartdns ad-list.
 # wget -q -T 10 -O /etc/storage/smartdns_blacklist-ip.conf https://neodev.team/smartdns.conf
+# smartdns stop && smartdns start >/dev/null 2>&1
 
 # CPU利用率优化，来自：https://www.right.com.cn/forum/thread-4031767-1-1.html
 /etc/storage/bin/rps-rfs-ops.sh set
