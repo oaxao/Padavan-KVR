@@ -516,7 +516,7 @@ dhcp-option=252,"\n"
 EOF
 	# create rps-rfs-ops script
 	if [ ! -f "$script_rros" ] ; then
-		cat > "$script_rros" <<EOF
+		cat > "$script_rros" <<'EOF'
 #!/bin/sh
 
 set_rps_rfs() {
