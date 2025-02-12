@@ -234,7 +234,7 @@ tailscale_restart () {
 }
 
 tailscale_check () {
-  taislcale_start
+  tailscale_start
 
 }
 
