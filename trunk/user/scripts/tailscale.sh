@@ -7,17 +7,17 @@ taiapp="/tmp/tailscaled"
 tailscale="/tmp/tailscaled/tailscale"
 tailscaled="/tmp/tailscaled/tailscaled"
 if [ "$size" -gt 8 ] ; then 
-taiapp="/etc/storage/tailscale"
-tailscale="/etc/storage/tailscale/tailscale"
-tailscaled="/etc/storage/tailscale/tailscaled"
+taiapp="/etc/storage"
+tailscale="/etc/storage/tailscale"
+tailscaled="/etc/storage/tailscaled"
 fi
 if [ ! -z "$upanPath" ] ; then
 taiapp="$upanPath/tailscaled"
 tailscale="$upanPath/tailscaled/tailscale"
 tailscaled="$upanPath/tailscaled/tailscaled"
 fi
-[ -f "/etc/storage/bin/tailscale" ] && tailscale="/etc/storage/bin/tailscale"
-[ -f "/etc/storage/bin/tailscaled" ] && tailscaled="/etc/storage/bin/tailscaled"
+[ -f "/etc/storage/tailscale" ] && tailscale="/etc/storage/tailscale"
+[ -f "/etc/storage/tailscaled" ] && tailscaled="/etc/storage/tailscaled"
 tag=$(curl -k --silent "https://api.github.com/repos/lmq8267/tailscale/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
 [ -z "$tag" ] && tag="$( curl -k -L --connect-timeout 20 --silent https://api.github.com/repos/lmq8267/tailscale/releases/latest | grep 'tag_name' | cut -d\" -f4 )"
 [ -z "$tag" ] && tag="$( curl -k --connect-timeout 20 --silent https://api.github.com/repos/lmq8267/tailscale/releases/latest | grep 'tag_name' | cut -d\" -f4 )"
@@ -38,7 +38,7 @@ else
 logger -t "【Tailscale】" "未挂载储存设备,内存/tmp容量剩余$Available_A M，程序约9M将安装在$taiapp"
 fi
 fi
-logger -t "【Tailscale】" "文件较大，若是反复下载失败，手动从 https://github.com/lmq8267/tailscale/releases 下载程序上传至$tailscale和$tailscaled"
+logger -t "【Tailscale】" "文件较大，若是反复下载失败，手动去 https://github.com/lmq8267/tailscale/releases 下载程序上传至$tailscale和$tailscaled"
 [ ! -d "$taiapp" ] && mkdir -p "$taiapp"
 [ ! -f "$tailscaled" ] && rm -rf $tailscale
 [ ! -f "$tailscale" ] && rm -rf $tailscaled
@@ -47,7 +47,7 @@ down=1
     down=`expr $down + 1`
     rm -rf $tailscaled $tailscale
     if [ ! -z "$tag" ]; then
-     logger -t "【Tailscale】" "获取到最新版本tailscale_v$tag,开始下载..."
+     logger -t "【Tailscale】" "获取到最新版本tailscale_$tag,开始下载..."
      rm -rf /tmp/var/tailscale.txt
      rm -rf /tmp/var/tailscaled.txt
      curl -L -k -S -o "/tmp/var/tailscale.txt" --connect-timeout 10 --retry 3 "https://fastly.jsdelivr.net/gh/lmq8267/tailscale@master/install/$tag/tailscale.txt" ||  curl -L -k -S -o "/tmp/var/tailscale.txt" --connect-timeout 10 --retry 3 "https://hub.gitmirror.com/https://raw.githubusercontent.com/lmq8267/tailscale/main/install/$tag/tailscale.txt"
@@ -138,8 +138,8 @@ tailscale_start () {
      sed -Ei '/tailscale守护进程|^$/d' "$F"
      [ ! -d $config_path ] && mkdir -p $config_path
      [ ! -d $taiapp ] && mkdir -p $taiapp
-     [ -f "/etc/storage/tailscale/tailscale" ] && tailscale="/etc/storage/tailscale/tailscale"
-     [ -f "/etc/storage/tailscale/tailscaled" ] && tailscaled="/etc/storage/tailscale/tailscaled"
+     [ -f "/etc/storage/bin/tailscale" ] && tailscale="/etc/storage/bin/tailscale"
+     [ -f "/etc/storage/bin/tailscaled" ] && tailscaled="/etc/storage/bin/tailscaled"
      [ -f "$upanPath/tailscaled/tailscale" ] && tailscale="$upanPath/tailscaled/tailscale"
      [ -f "$upanPath/tailscaled/tailscaled" ] && tailscaled="$upanPath/tailscaled/tailscaled"
      [ ! -f $tailscaled ] && tailscale_dl
@@ -152,11 +152,11 @@ tailscale_start () {
      [ -z "$taiver" ] && logger -t "【Tailscale】" "程序不完整，重新下载..." && rm -rf $tailscaled $tailscale && tailscale_dl
      if [ ! -z "$tag" ] && [ ! -z "$taiver" ] ; then
         if [ "$tag"x != "$taiver"x ] ; then
-           logger -t "【Tailscale】" "已发布最新版本tailscale_v$tag,当前安装版本tailscale_v$taiver,开始更新，删除tailscaled"
+           logger -t "【Tailscale】" "已发布最新版本tailscale_$tag,当前安装版本tailscale_$taiver,开始更新，删除tailscaled"
 	   rm -rf "$tailscaled" "$tailscale"
            tailscale_dl
 	   else
-           logger -t "【Tailscale】" "当前安装版本tailscale_v$taiver,准备启动"
+           logger -t "【Tailscale】" "当前安装版本tailscale_$taiver,准备启动"
 	fi
      fi
      [ -L /etc/storage/tailscale/tailscale ] && rm -rf /etc/storage/tailscale/tailscale
@@ -234,7 +234,7 @@ tailscale_restart () {
 }
 
 tailscale_check () {
-  tailscale_start
+  taislcale_start
 
 }
 
